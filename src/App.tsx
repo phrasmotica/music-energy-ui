@@ -56,11 +56,11 @@ function App() {
       <div>
         <table style={{ width: "100%", tableLayout: "fixed" }}>
           <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
+            <th><span className="tableHeading">Monday</span></th>
+            <th><span className="tableHeading">Tuesday</span></th>
+            <th><span className="tableHeading">Wednesday</span></th>
+            <th><span className="tableHeading">Thursday</span></th>
+            <th><span className="tableHeading">Friday</span></th>
           </tr>
           <tr>
             <td>{renderEnergy(trackData.mondayEnergy)}</td>
@@ -79,11 +79,13 @@ function App() {
       <header className="App-header">
         <div className="title">
           <h1>Music Energy Calculator</h1>
+          <span className="subheading">
+            See which day suits your favourite song the best!
+          </span>
         </div>
 
         <div className="elements">
-          <div
-            style={{ marginBottom: 10 }}>
+          <div>
             <InputGroup>
               <Input
                 placeholder="Spotify track URL"

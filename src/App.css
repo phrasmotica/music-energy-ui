@@ -24,12 +24,20 @@
   color: white;
 }
 
+.subheading {
+  font-size: calc(10px + 1.5vmin);
+}
+
 .title {
   margin-bottom: 10px;
 }
 
 .elements {
   width: 800px;
+}
+
+.tableHeading {
+  font-size: calc(10px + 1.5vmin);
 }
 
 .App-link {
