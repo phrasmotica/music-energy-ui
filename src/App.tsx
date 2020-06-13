@@ -39,6 +39,29 @@ function App() {
       .then(() => setLoading(false))
   }
 
+  const renderTrackSummary = (track: TrackResponse | undefined) => {
+    if (track === undefined) {
+      return null
+    }
+
+    return (
+      <div className="trackSummary">
+        <div className="flex">
+          <img
+            className="trackArtwork"
+            src={track.artworkUrl}
+            alt={track.name} />
+
+          <div className="text-left">
+            <div className="songName">{track.name}</div>
+            <div className="artistName">{track.artist}</div>
+            <div className="albumName">{track.album} ({track.year})</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const renderEnergy = (score: number | undefined) => {
     let scoreElement = <span>?</span>
     if (loading) {
@@ -51,7 +74,7 @@ function App() {
     return scoreElement
   }
 
-  const renderEnergies = () => {
+  const renderEnergies = (track: TrackResponse | undefined) => {
     return (
       <div>
         <table style={{ width: "100%", tableLayout: "fixed" }}>
@@ -63,11 +86,11 @@ function App() {
             <th><span className="tableHeading">Friday</span></th>
           </tr>
           <tr>
-            <td>{renderEnergy(trackData?.mondayEnergy)}</td>
-            <td>{renderEnergy(trackData?.tuesdayEnergy)}</td>
-            <td>{renderEnergy(trackData?.wednesdayEnergy)}</td>
-            <td>{renderEnergy(trackData?.thursdayEnergy)}</td>
-            <td>{renderEnergy(trackData?.fridayEnergy)}</td>
+            <td>{renderEnergy(track?.mondayEnergy)}</td>
+            <td>{renderEnergy(track?.tuesdayEnergy)}</td>
+            <td>{renderEnergy(track?.wednesdayEnergy)}</td>
+            <td>{renderEnergy(track?.thursdayEnergy)}</td>
+            <td>{renderEnergy(track?.fridayEnergy)}</td>
           </tr>
         </table>
       </div>
@@ -111,7 +134,9 @@ function App() {
             </InputGroup>
           </div>
 
-          {renderEnergies()}
+          {renderTrackSummary(trackData)}
+
+          {renderEnergies(trackData)}
         </div>
       </header>
     </div>

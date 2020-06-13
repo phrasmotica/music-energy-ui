@@ -36,6 +36,36 @@
   width: 800px;
 }
 
+.flex {
+  display: flex;
+}
+
+.trackSummary {
+  margin: 10px;
+}
+
+.trackArtwork {
+  height: 300px;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.songName {
+  font-size: calc(10px + 1.5vmin);
+}
+
+.artistName {
+  font-size: calc(10px + 1vmin);
+}
+
+.albumName {
+  font-size: calc(10px + 1vmin);
+}
+
 .tableHeading {
   font-size: calc(10px + 1.5vmin);
 }
