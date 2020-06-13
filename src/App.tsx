@@ -100,43 +100,45 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="title">
-          <h1>Music Energy Calculator</h1>
-          <span className="subheading">
-            See which day suits your favourite song the best!
-          </span>
-        </div>
-
         <div className="elements">
-          <div>
-            <InputGroup>
-              <Input
-                placeholder="Spotify track URL"
-                onChange={s => setUrl(s.target.value)} />
-
-              <InputGroupAddon addonType="append">
-                <Button
-                  color="primary"
-                  disabled={loading || url.length <= 0}
-                  onClick={_ => getEnergyFromUrl(url)}>
-                  Get Energy
-                </Button>
-              </InputGroupAddon>
-
-              <InputGroupAddon addonType="append">
-                <Button
-                  color="danger"
-                  disabled={trackData === undefined}
-                  onClick={_ => setTrackData(undefined)}>
-                  Clear
-                </Button>
-              </InputGroupAddon>
-            </InputGroup>
+          <div className="title">
+            <h1>Music Energy Calculator</h1>
+            <span className="subheading">
+              See which day suits your favourite song the best!
+            </span>
           </div>
 
-          {renderTrackSummary(trackData)}
+          <div>
+            <div>
+              <InputGroup>
+                <Input
+                  placeholder="Spotify track URL"
+                  onChange={s => setUrl(s.target.value)} />
 
-          {renderEnergies(trackData)}
+                <InputGroupAddon addonType="append">
+                  <Button
+                    color="primary"
+                    disabled={loading || url.length <= 0}
+                    onClick={_ => getEnergyFromUrl(url)}>
+                    Get Energy
+                  </Button>
+                </InputGroupAddon>
+
+                <InputGroupAddon addonType="append">
+                  <Button
+                    color="danger"
+                    disabled={trackData === undefined}
+                    onClick={_ => setTrackData(undefined)}>
+                    Clear
+                  </Button>
+                </InputGroupAddon>
+              </InputGroup>
+            </div>
+
+            {renderTrackSummary(trackData)}
+
+            {renderEnergies(trackData)}
+          </div>
         </div>
       </header>
     </div>
