@@ -7,7 +7,7 @@ import './App.css'
 function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
-  const [trackData, setTrackData] = useState(new TrackResponse())
+  const [trackData, setTrackData] = useState<TrackResponse | undefined>(undefined)
 
   const getEnergyFromUrl = (url: string) => {
     // url looks like "https://open.spotify.com/track/6NpfAWrIs39a15xlDwHKEK"
@@ -63,11 +63,11 @@ function App() {
             <th><span className="tableHeading">Friday</span></th>
           </tr>
           <tr>
-            <td>{renderEnergy(trackData.mondayEnergy)}</td>
-            <td>{renderEnergy(trackData.tuesdayEnergy)}</td>
-            <td>{renderEnergy(trackData.wednesdayEnergy)}</td>
-            <td>{renderEnergy(trackData.thursdayEnergy)}</td>
-            <td>{renderEnergy(trackData.fridayEnergy)}</td>
+            <td>{renderEnergy(trackData?.mondayEnergy)}</td>
+            <td>{renderEnergy(trackData?.tuesdayEnergy)}</td>
+            <td>{renderEnergy(trackData?.wednesdayEnergy)}</td>
+            <td>{renderEnergy(trackData?.thursdayEnergy)}</td>
+            <td>{renderEnergy(trackData?.fridayEnergy)}</td>
           </tr>
         </table>
       </div>
@@ -97,6 +97,15 @@ function App() {
                   disabled={loading || url.length <= 0}
                   onClick={_ => getEnergyFromUrl(url)}>
                   Get Energy
+                </Button>
+              </InputGroupAddon>
+
+              <InputGroupAddon addonType="append">
+                <Button
+                  color="danger"
+                  disabled={trackData === undefined}
+                  onClick={_ => setTrackData(undefined)}>
+                  Clear
                 </Button>
               </InputGroupAddon>
             </InputGroup>
