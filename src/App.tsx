@@ -62,19 +62,35 @@ function App() {
     )
   }
 
-  const renderEnergy = (score: number | undefined) => {
+  const renderEnergy = (score: number | undefined, maxScore: number) => {
     let scoreElement = <span>?</span>
     if (loading) {
       scoreElement = <Spinner color="primary" />
     }
     else if (score !== undefined) {
-      scoreElement = <span>{Math.trunc(100 * score)}%</span>
+      let percentage = Math.trunc(100 * score)
+      scoreElement = <span>{percentage}%</span>
+
+      if (percentage >= Math.trunc(100 * maxScore)) {
+        scoreElement = <b>{scoreElement}</b>
+      }
     }
 
     return scoreElement
   }
 
   const renderEnergies = (track: TrackResponse | undefined) => {
+    const scores = [
+      track?.mondayEnergy ?? -1,
+      track?.tuesdayEnergy ?? -1,
+      track?.wednesdayEnergy ?? -1,
+      track?.thursdayEnergy ?? -1,
+      track?.fridayEnergy ?? -1,
+    ]
+
+    // determine which one should be bold
+    let maxScore = scores.reduce((x, y) => x > y ? x : y)
+
     return (
       <div className="percentages">
         <div className="energyContainer">
@@ -82,7 +98,7 @@ function App() {
             <span className="tableHeading">Monday</span>
           </div>
           <div>
-            <span>{renderEnergy(track?.mondayEnergy)}</span>
+            <span>{renderEnergy(track?.mondayEnergy, maxScore)}</span>
           </div>
         </div>
 
@@ -91,7 +107,7 @@ function App() {
             <span className="tableHeading">Tuesday</span>
           </div>
           <div>
-            <span>{renderEnergy(track?.tuesdayEnergy)}</span>
+            <span>{renderEnergy(track?.tuesdayEnergy, maxScore)}</span>
           </div>
         </div>
 
@@ -100,7 +116,7 @@ function App() {
             <span className="tableHeading">Wednesday</span>
           </div>
           <div>
-            <span>{renderEnergy(track?.wednesdayEnergy)}</span>
+            <span>{renderEnergy(track?.wednesdayEnergy, maxScore)}</span>
           </div>
         </div>
 
@@ -109,7 +125,7 @@ function App() {
             <span className="tableHeading">Thursday</span>
           </div>
           <div>
-            <span>{renderEnergy(track?.thursdayEnergy)}</span>
+            <span>{renderEnergy(track?.thursdayEnergy, maxScore)}</span>
           </div>
         </div>
 
@@ -118,7 +134,7 @@ function App() {
             <span className="tableHeading">Friday</span>
           </div>
           <div>
-            <span>{renderEnergy(track?.fridayEnergy)}</span>
+            <span>{renderEnergy(track?.fridayEnergy, maxScore)}</span>
           </div>
         </div>
       </div>
