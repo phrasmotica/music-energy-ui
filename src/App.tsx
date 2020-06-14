@@ -4,6 +4,9 @@ import { TrackResponse } from "./TrackResponse"
 
 import './App.css'
 
+/**
+ * Renders a summary of the given track.
+ */
 function renderTrackSummary(track: TrackResponse | undefined) {
   if (track === undefined) {
     return null
@@ -27,6 +30,112 @@ function renderTrackSummary(track: TrackResponse | undefined) {
   )
 }
 
+/**
+ * Renders the energy scores of the given track.
+ */
+function renderEnergies(
+  track: TrackResponse | undefined,
+  loading: boolean,
+  showDescriptions: boolean
+) {
+  // determine which scores should be bold
+  let maxScore = track?.getMaxScore() ?? -1
+
+  let data = [
+    {
+      heading: "Monday",
+      score: track?.mondayEnergy,
+      description: "experimental / noise / metal / grind / sixth world / misanthropic stuff"
+    },
+    {
+      heading: "Tuesday",
+      score: track?.tuesdayEnergy,
+      description: "techno / idm / glitch / illbient / deconstructed club / ambient / experimental"
+    },
+    {
+      heading: "Wednesday",
+      score: track?.wednesdayEnergy,
+      description: "ethereal / confident / uplifting / new age / majestic / orchestral / psychedelic"
+    },
+    {
+      heading: "Thursday",
+      score: track?.thursdayEnergy,
+      description: "joyous / confident / enigmatic / arrogant / charismatic"
+    },
+    {
+      heading: "Friday",
+      score: track?.fridayEnergy,
+      description: "rave / hedonistic / party / unhinged / unstoppable"
+    },
+  ]
+
+  return (
+    <div className="percentages">
+      {data.map((d, i) => {
+        let headingElement = (
+          <div>
+            <span className="tableHeading">{d.heading}</span>
+          </div>
+        )
+
+        let scoreElement = (
+          <div>
+            {renderEnergy(d.score, maxScore, loading)}
+          </div>
+        )
+
+        let descriptionClassName = "energyDescription"
+        if (!showDescriptions) {
+          descriptionClassName = "energyDescription hidden"
+        }
+
+        let descriptionElement = (
+          <div className={descriptionClassName}>
+            <span>{d.description}</span>
+          </div>
+        )
+
+        let containerClassName = "energyContainer"
+        if (i > 0) {
+          containerClassName += "-added"
+        }
+
+        return (
+          <div className={containerClassName}>
+            {headingElement}
+            {scoreElement}
+            {descriptionElement}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/**
+ * Renders the given energy score.
+ */
+function renderEnergy(
+  score: number | undefined,
+  maxScore: number,
+  loading: boolean
+) {
+  let scoreElement = <span>?</span>
+  if (loading) {
+    scoreElement = <Spinner className="scoreSpinner" color="primary" />
+  }
+  else if (score !== undefined) {
+    let percentage = Math.trunc(100 * score)
+    scoreElement = <span>{percentage}%</span>
+
+    if (percentage >= Math.trunc(100 * maxScore)) {
+      scoreElement = <b>{scoreElement}</b>
+    }
+  }
+
+  return scoreElement
+}
+
 function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
@@ -34,6 +143,9 @@ function App() {
   const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
 
+  /**
+   * Fetches energy data for the track at the given URL.
+   */
   const getEnergyFromUrl = (url: string) => {
     // url looks like "https://open.spotify.com/track/6NpfAWrIs39a15xlDwHKEK"
     const regex = /https:\/\/.+spotify.com\/track\/(\w+)/g
@@ -49,6 +161,9 @@ function App() {
     }
   }
 
+  /**
+   * Fetches energy data for the track with the given ID.
+   */
   const getEnergy = (trackId: string) => {
     setShowError(false)
     setLoading(true)
@@ -72,98 +187,6 @@ function App() {
         setShowError(true)
       })
       .then(() => setLoading(false))
-  }
-
-  const renderEnergy = (score: number | undefined, maxScore: number) => {
-    let scoreElement = <span>?</span>
-    if (loading) {
-      scoreElement = <Spinner className="scoreSpinner" color="primary" />
-    }
-    else if (score !== undefined) {
-      let percentage = Math.trunc(100 * score)
-      scoreElement = <span>{percentage}%</span>
-
-      if (percentage >= Math.trunc(100 * maxScore)) {
-        scoreElement = <b>{scoreElement}</b>
-      }
-    }
-
-    return scoreElement
-  }
-
-  const renderEnergies = (track: TrackResponse | undefined) => {
-    // determine which scores should be bold
-    let maxScore = track?.getMaxScore() ?? -1
-
-    let data = [
-      {
-        heading: "Monday",
-        score: track?.mondayEnergy,
-        description: "experimental / noise / metal / grind / sixth world / misanthropic stuff"
-      },
-      {
-        heading: "Tuesday",
-        score: track?.tuesdayEnergy,
-        description: "techno / idm / glitch / illbient / deconstructed club / ambient / experimental"
-      },
-      {
-        heading: "Wednesday",
-        score: track?.wednesdayEnergy,
-        description: "ethereal / confident / uplifting / new age / majestic / orchestral / psychedelic"
-      },
-      {
-        heading: "Thursday",
-        score: track?.thursdayEnergy,
-        description: "joyous / confident / enigmatic / arrogant / charismatic"
-      },
-      {
-        heading: "Friday",
-        score: track?.fridayEnergy,
-        description: "rave / hedonistic / party / unhinged / unstoppable"
-      },
-    ]
-
-    return (
-      <div className="percentages">
-        {data.map((d, i) => {
-          let headingElement = (
-            <div>
-              <span className="tableHeading">{d.heading}</span>
-            </div>
-          )
-
-          let scoreElement = (
-            <div>
-              {renderEnergy(d.score, maxScore)}
-            </div>
-          )
-
-          let descriptionClassName = "energyDescription"
-          if (!showDescriptions) {
-            descriptionClassName = "energyDescription hidden"
-          }
-
-          let descriptionElement = (
-            <div className={descriptionClassName}>
-              <span>{d.description}</span>
-            </div>
-          )
-
-          let containerClassName = "energyContainer"
-          if (i > 0) {
-            containerClassName += "-added"
-          }
-
-          return (
-            <div className={containerClassName}>
-              {headingElement}
-              {scoreElement}
-              {descriptionElement}
-            </div>
-          )
-        })}
-      </div>
-    )
   }
 
   return (
@@ -216,7 +239,7 @@ function App() {
 
             {renderTrackSummary(trackData)}
 
-            {renderEnergies(trackData)}
+            {renderEnergies(trackData, loading, showDescriptions)}
           </div>
         </div>
       </header>
