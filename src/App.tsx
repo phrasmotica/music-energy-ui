@@ -4,6 +4,29 @@ import { TrackResponse } from "./TrackResponse"
 
 import './App.css'
 
+function renderTrackSummary(track: TrackResponse | undefined) {
+  if (track === undefined) {
+    return null
+  }
+
+  return (
+    <div className="trackSummary">
+      <div className="flex">
+        <img
+          className="trackArtwork"
+          src={track.artworkUrl}
+          alt={track.name} />
+
+        <div className="text-left">
+          <div className="songName">{track.name}</div>
+          <div className="artistName">{track.artist}</div>
+          <div className="albumName">{track.album} ({track.year})</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
@@ -49,29 +72,6 @@ function App() {
         setShowError(true)
       })
       .then(() => setLoading(false))
-  }
-
-  const renderTrackSummary = (track: TrackResponse | undefined) => {
-    if (track === undefined) {
-      return null
-    }
-
-    return (
-      <div className="trackSummary">
-        <div className="flex">
-          <img
-            className="trackArtwork"
-            src={track.artworkUrl}
-            alt={track.name} />
-
-          <div className="text-left">
-            <div className="songName">{track.name}</div>
-            <div className="artistName">{track.artist}</div>
-            <div className="albumName">{track.album} ({track.year})</div>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   const renderEnergy = (score: number | undefined, maxScore: number) => {
