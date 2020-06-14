@@ -6,121 +6,121 @@ export class TrackResponse
     /**
      * Gets or sets the ID of the track.
      */
-    id?: string
+    id: string
 
     /**
      * Gets or sets the name of the track.
      */
-    name?: string
+    name: string
 
     /**
      * Gets or sets the artist of the track.
      */
-    artist?: string
+    artist: string
 
     /**
      * Gets or sets the album of the track.
      */
-    album?: string
+    album: string
 
     /**
      * Gets or sets the year of the track.
      */
-    year?: number
+    year: number
 
     /**
      * Gets or sets the URL of artwork for the track.
      */
-    artworkUrl?: string
+    artworkUrl: string
 
     /**
      * Gets or sets the acousticness of the track.
      */
-    acousticness?: number
+    acousticness: number
 
     /**
      * Gets or sets the danceability of the track.
      */
-    danceability?: number
+    danceability: number
 
     /**
      * Gets or sets the energy of the track.
      */
-    energy?: number
+    energy: number
 
     /**
      * Gets or sets the instrumentalness of the track.
      */
-    instrumentalness?: number
+    instrumentalness: number
 
     /**
      * Gets or sets the liveness of the track.
      */
-    liveness?: number
+    liveness: number
 
     /**
      * Gets or sets the normalised loudness of the track.
      */
-    normalisedLoudness?: number
+    normalisedLoudness: number
 
     /**
      * Gets or sets the speechiness of the track.
      */
-    speechiness?: number
+    speechiness: number
 
     /**
      * Gets or sets the valence of the track.
      */
-    valence?: number
+    valence: number
 
     /**
      * Gets or sets the Monday energy score of the track.
      */
-    mondayEnergy?: number
+    mondayEnergy: number
 
     /**
      * Gets or sets the Tuesday energy score of the track.
      */
-    tuesdayEnergy?: number
+    tuesdayEnergy: number
 
     /**
      * Gets or sets the Wednesday energy score of the track.
      */
-    wednesdayEnergy?: number
+    wednesdayEnergy: number
 
     /**
      * Gets or sets the Thursday energy score of the track.
      */
-    thursdayEnergy?: number
+    thursdayEnergy: number
 
     /**
      * Gets or sets the Friday energy score of the track.
      */
-    fridayEnergy?: number
+    fridayEnergy: number
 
     /**
      * Constructor.
      */
     constructor(
-        id?: string,
-        name?: string,
-        artist?: string,
-        album?: string,
-        year?: number,
-        artworkUrl?: string,
-        acousticness?: number,
-        danceability?: number,
-        energy?: number,
-        instrumentalness?: number,
-        liveness?: number,
-        normalisedLoudness?: number,
-        speechiness?: number,
-        valence?: number,
-        mondayEnergy?: number,
-        tuesdayEnergy?: number,
-        wednesdayEnergy?: number,
-        thursdayEnergy?: number,
-        fridayEnergy?: number,
+        id: string,
+        name: string,
+        artist: string,
+        album: string,
+        year: number,
+        artworkUrl: string,
+        acousticness: number,
+        danceability: number,
+        energy: number,
+        instrumentalness: number,
+        liveness: number,
+        normalisedLoudness: number,
+        speechiness: number,
+        valence: number,
+        mondayEnergy: number,
+        tuesdayEnergy: number,
+        wednesdayEnergy: number,
+        thursdayEnergy: number,
+        fridayEnergy: number,
     ) {
         this.id = id
         this.name = name
@@ -141,6 +141,21 @@ export class TrackResponse
         this.wednesdayEnergy = wednesdayEnergy
         this.thursdayEnergy = thursdayEnergy
         this.fridayEnergy = fridayEnergy
+    }
+
+    /**
+     * Returns the highest energy score.
+     */
+    getMaxScore() {
+        const scores = [
+            this.mondayEnergy,
+            this.tuesdayEnergy,
+            this.wednesdayEnergy,
+            this.thursdayEnergy,
+            this.fridayEnergy,
+        ]
+
+        return scores.reduce((x, y) => x > y ? x : y)
     }
 
     /**

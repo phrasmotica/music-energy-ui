@@ -80,16 +80,8 @@ function App() {
   }
 
   const renderEnergies = (track: TrackResponse | undefined) => {
-    const scores = [
-      track?.mondayEnergy ?? -1,
-      track?.tuesdayEnergy ?? -1,
-      track?.wednesdayEnergy ?? -1,
-      track?.thursdayEnergy ?? -1,
-      track?.fridayEnergy ?? -1,
-    ]
-
-    // determine which one should be bold
-    let maxScore = scores.reduce((x, y) => x > y ? x : y)
+    // determine which scores should be bold
+    let maxScore = track?.getMaxScore() ?? -1
 
     return (
       <div className="percentages">
