@@ -77,7 +77,7 @@ function App() {
   const renderEnergy = (score: number | undefined, maxScore: number) => {
     let scoreElement = <span>?</span>
     if (loading) {
-      scoreElement = <Spinner color="primary" />
+      scoreElement = <Spinner className="scoreSpinner" color="primary" />
     }
     else if (score !== undefined) {
       let percentage = Math.trunc(100 * score)

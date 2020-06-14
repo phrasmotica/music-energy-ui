@@ -168,6 +168,11 @@ h1 {
   }
 }
 
+.scoreSpinner {
+  width: min(2rem, calc(5 * min(1vw, 1vh)));
+  height: min(2rem, calc(5 * min(1vw, 1vh)));
+}
+
 .energyDescription {
   font-size: calc(10px + 0.5vmin);
   width: auto;
