@@ -24,7 +24,7 @@
 }
 
 .elements {
-  min-width: 400px;
+  min-width: 300px;
   max-width: 1000px;
   margin: 5vh 5vw 0vh 5vw;
 }
@@ -97,7 +97,7 @@ h1 {
   font-size: calc(10px + 0.75vmin);
 }
 
-@media (min-width: 400px) {
+@media (min-width: 300px) {
   .searchContainer {
     display: block;
   }
