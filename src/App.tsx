@@ -142,6 +142,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("")
   const [loading, setLoading] = useState(false)
   const [trackData, setTrackData] = useState<TrackEnergyResponse | undefined>(undefined)
+  const [loadingTrackSearchResults, setLoadingTrackSearchResults] = useState(false)
   const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
   const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
@@ -150,7 +151,7 @@ function App() {
    * Fetches track results for the given search query.
    */
   const getSearchResults = (query: string) => {
-    setLoading(true)
+    setLoadingTrackSearchResults(true)
 
     let endpoint = `${process.env.REACT_APP_API_URL}/TrackSearch?query=${encodeURI(query)}`
     fetch(endpoint)
@@ -165,16 +166,9 @@ function App() {
       .then((searchResults: TrackSearchResult[]) => {
           let concreteResults = searchResults.map(TrackSearchResult.from)
           setTrackSearchResults(concreteResults)
-
-          if (concreteResults.length > 0) {
-            getEnergy(concreteResults[0].id)
-          }
-          else {
-            setTrackData(undefined)
-            setLoading(false)
-          }
       })
       .catch(() => setTrackSearchResults([]))
+      .finally(() => setLoadingTrackSearchResults(false))
   }
 
   /**
@@ -290,7 +284,7 @@ function App() {
                 <Button
                   color="success"
                   className="searchButton"
-                  disabled={loading || searchQuery.length <= 0}
+                  disabled={loadingTrackSearchResults || searchQuery.length <= 0}
                   onClick={_ => getSearchResults(searchQuery)}>
                   Search
                 </Button>
