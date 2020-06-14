@@ -1,7 +1,7 @@
 /**
- * Model for responses.
+ * Model for responses outlining track energy scores.
  */
-export class TrackResponse
+export class TrackEnergyResponse
 {
     /**
      * Gets or sets the ID of the track.
@@ -159,10 +159,10 @@ export class TrackResponse
     }
 
     /**
-     * Returns a new instance from the given track response.
+     * Returns a new instance from the given track energy response.
      */
-    static from(trackData: TrackResponse) {
-        return new TrackResponse(
+    static from(trackData: TrackEnergyResponse) {
+        return new TrackEnergyResponse(
             trackData.id,
             trackData.name,
             trackData.artist,

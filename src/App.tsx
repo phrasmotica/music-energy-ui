@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Input, Button, ButtonGroup, Spinner } from "reactstrap"
-import { TrackResponse } from "./TrackResponse"
+
+import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
 import './App.css'
 
 /**
  * Renders a summary of the given track.
  */
-function renderTrackSummary(track: TrackResponse | undefined) {
+function renderTrackSummary(track: TrackEnergyResponse | undefined) {
   if (track === undefined) {
     return null
   }
@@ -34,7 +35,7 @@ function renderTrackSummary(track: TrackResponse | undefined) {
  * Renders the energy scores of the given track.
  */
 function renderEnergies(
-  track: TrackResponse | undefined,
+  track: TrackEnergyResponse | undefined,
   loading: boolean,
   showDescriptions: boolean
 ) {
@@ -139,7 +140,7 @@ function renderEnergy(
 function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
-  const [trackData, setTrackData] = useState<TrackResponse | undefined>(undefined)
+  const [trackData, setTrackData] = useState<TrackEnergyResponse | undefined>(undefined)
   const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
 
@@ -178,8 +179,8 @@ function App() {
           throw new Error(`Tried to get energy for track ${trackId} but failed with status ${response.status}!`)
       })
       .then(response => response.json())
-      .then((trackData: TrackResponse) => {
-          let concreteTrackData = TrackResponse.from(trackData)
+      .then((trackData: TrackEnergyResponse) => {
+          let concreteTrackData = TrackEnergyResponse.from(trackData)
           setTrackData(concreteTrackData)
       })
       .catch(() => {
