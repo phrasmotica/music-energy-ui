@@ -24,12 +24,17 @@
 }
 
 .elements {
-  width: 800px;
-  margin-top: 20vh;
+  min-width: 400px;
+  max-width: 1000px;
+  margin: 5vh 5vw 0vh 5vw;
+}
+
+h1 {
+  font-size: calc(10px + 2.5vmin);
 }
 
 .subheading {
-  font-size: calc(10px + 1.5vmin);
+  font-size: calc(10px + 1vmin);
 }
 
 .title {
@@ -45,8 +50,8 @@
 }
 
 .trackArtwork {
-  height: 300px;
-  width: 300px;
+  height: calc(20 * min(1vw, 1vh));
+  width: calc(20 * min(1vw, 1vh));
   margin-right: 10px;
 }
 
@@ -68,6 +73,64 @@
 
 .tableHeading {
   font-size: calc(10px + 1.5vmin);
+}
+
+.searchContainer {
+  margin-bottom: 5px;
+}
+
+.urlInput {
+  font-size: calc(10px + 0.75vmin);
+}
+
+.getButton {
+  font-size: calc(10px + 0.75vmin);
+}
+
+.clearButton {
+  font-size: calc(10px + 0.75vmin);
+}
+
+@media (min-width: 400px) {
+  .searchContainer {
+    display: inline;
+  }
+
+  .urlInput {
+    margin-bottom: 5px;
+  }
+
+  .buttonContainer {
+    width: 100%;
+  }
+
+  .percentages {
+    display: inline;
+  }
+}
+
+@media (min-width: 600px) {
+  .searchContainer {
+    display: flex;
+  }
+
+  .urlInput {
+    flex: 1;
+    margin-right: 5px;
+    margin-bottom: 0px;
+  }
+
+  .buttonContainer {
+    width: unset;
+  }
+
+  .percentages {
+    display: flex;
+  }
+
+  .energyContainer {
+    flex: 1;
+  }
 }
 
 .App-link {

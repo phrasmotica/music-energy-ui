@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button, InputGroup, InputGroupAddon, Spinner } from "reactstrap"
+import { Input, Button, ButtonGroup, Spinner } from "reactstrap"
 import { TrackResponse } from "./TrackResponse"
 
 import './App.css'
@@ -76,23 +76,51 @@ function App() {
 
   const renderEnergies = (track: TrackResponse | undefined) => {
     return (
-      <div>
-        <table style={{ width: "100%", tableLayout: "fixed" }}>
-          <tr>
-            <th><span className="tableHeading">Monday</span></th>
-            <th><span className="tableHeading">Tuesday</span></th>
-            <th><span className="tableHeading">Wednesday</span></th>
-            <th><span className="tableHeading">Thursday</span></th>
-            <th><span className="tableHeading">Friday</span></th>
-          </tr>
-          <tr>
-            <td>{renderEnergy(track?.mondayEnergy)}</td>
-            <td>{renderEnergy(track?.tuesdayEnergy)}</td>
-            <td>{renderEnergy(track?.wednesdayEnergy)}</td>
-            <td>{renderEnergy(track?.thursdayEnergy)}</td>
-            <td>{renderEnergy(track?.fridayEnergy)}</td>
-          </tr>
-        </table>
+      <div className="percentages">
+        <div className="energyContainer">
+          <div>
+            <span className="tableHeading">Monday</span>
+          </div>
+          <div>
+            <span>{renderEnergy(track?.mondayEnergy)}</span>
+          </div>
+        </div>
+
+        <div className="energyContainer">
+          <div>
+            <span className="tableHeading">Tuesday</span>
+          </div>
+          <div>
+            <span>{renderEnergy(track?.tuesdayEnergy)}</span>
+          </div>
+        </div>
+
+        <div className="energyContainer">
+          <div>
+            <span className="tableHeading">Wednesday</span>
+          </div>
+          <div>
+            <span>{renderEnergy(track?.wednesdayEnergy)}</span>
+          </div>
+        </div>
+
+        <div className="energyContainer">
+          <div>
+            <span className="tableHeading">Thursday</span>
+          </div>
+          <div>
+            <span>{renderEnergy(track?.thursdayEnergy)}</span>
+          </div>
+        </div>
+
+        <div className="energyContainer">
+          <div>
+            <span className="tableHeading">Friday</span>
+          </div>
+          <div>
+            <span>{renderEnergy(track?.fridayEnergy)}</span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -109,30 +137,29 @@ function App() {
           </div>
 
           <div>
-            <div>
-              <InputGroup>
-                <Input
-                  placeholder="Spotify track URL"
-                  onChange={s => setUrl(s.target.value)} />
+            <div className="searchContainer">
+              <Input
+                className="urlInput"
+                placeholder="Spotify track URL"
+                onChange={s => setUrl(s.target.value)} />
 
-                <InputGroupAddon addonType="append">
-                  <Button
-                    color="primary"
-                    disabled={loading || url.length <= 0}
-                    onClick={_ => getEnergyFromUrl(url)}>
-                    Get Energy
-                  </Button>
-                </InputGroupAddon>
+              <ButtonGroup className="buttonContainer">
+                <Button
+                  color="primary"
+                  className="getButton"
+                  disabled={loading || url.length <= 0}
+                  onClick={_ => getEnergyFromUrl(url)}>
+                  Get Energy
+                </Button>
 
-                <InputGroupAddon addonType="append">
-                  <Button
-                    color="danger"
-                    disabled={trackData === undefined}
-                    onClick={_ => setTrackData(undefined)}>
-                    Clear
-                  </Button>
-                </InputGroupAddon>
-              </InputGroup>
+                <Button
+                  color="danger"
+                  className="clearButton"
+                  disabled={trackData === undefined}
+                  onClick={_ => setTrackData(undefined)}>
+                  Clear
+                </Button>
+              </ButtonGroup>
             </div>
 
             {renderTrackSummary(trackData)}
