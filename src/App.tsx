@@ -205,6 +205,60 @@ function App() {
       .then(() => setLoading(false))
   }
 
+  /**
+   * Renders the given track search results.
+   */
+  function renderTrackSearchResults(query: string, results: TrackSearchResult[]) {
+    if (query.length <= 0) {
+      return null
+    }
+
+    if (results.length <= 0) {
+      return (
+        <div className="searchError">
+          We couldn't find that track!
+        </div>
+      )
+    }
+
+    return (
+      <div className="searchResults">
+        {results.map(renderTrackSearchResult)}
+      </div>
+    )
+  }
+
+  /**
+   * Renders the track search result.
+   */
+  function renderTrackSearchResult(track: TrackSearchResult | undefined) {
+    if (track === undefined) {
+      return null
+    }
+
+    const onClick = () => {
+      getEnergy(track.id)
+    }
+
+    return (
+      <button
+        className="searchResult"
+        onClick={onClick}>
+        <div className="flex">
+          <img
+            className="trackArtworkSmall"
+            src={track.artworkUrl}
+            alt={track.name} />
+
+          <div className="text-left">
+            <div className="songNameSmall">{track.name}</div>
+            <div className="artistNameSmall">{track.artist} - {track.album} ({track.year})</div>
+          </div>
+        </div>
+      </button>
+    )
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (searchQuery.length > 0) {
@@ -242,12 +296,17 @@ function App() {
                 </Button>
               </div>
 
+              {renderTrackSearchResults(searchQuery, trackSearchResults)}
+
               <ButtonGroup className="buttonContainer">
                 <Button
                   color="danger"
                   className="clearButton"
                   disabled={trackData === undefined}
-                  onClick={_ => setTrackData(undefined)}>
+                  onClick={_ => {
+                    setTrackData(undefined)
+                    setTrackSearchResults([])
+                  }}>
                   Clear
                 </Button>
 

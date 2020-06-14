@@ -45,6 +45,42 @@ h1 {
   display: flex;
 }
 
+.searchError {
+  font-size: calc(10px + 1vmin);
+  margin-bottom: 5px;
+}
+
+.searchResults {
+  font-size: calc(10px + 1vmin);
+  height: min(200px, calc(100px + 10vh));
+  overflow-y: scroll;
+  margin-bottom: 5px;
+}
+
+.searchResult {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.trackArtworkSmall {
+  height: calc(6 * min(1vw, 1vh));
+  width: calc(6 * min(1vw, 1vh));
+  margin-right: 10px;
+}
+
+.songNameSmall {
+  font-size: calc(10px + 0.5vmin);
+}
+
+.artistNameSmall {
+  font-size: calc(10px + 0.25vmin);
+}
+
+.albumNameSmall {
+  font-size: calc(10px + 0.25vmin);
+}
+
 .trackSummary {
   display: flex;
   justify-content: center;
