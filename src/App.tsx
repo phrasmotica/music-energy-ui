@@ -207,7 +207,9 @@ function App() {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      getSearchResults(searchQuery)
+      if (searchQuery.length > 0) {
+        getSearchResults(searchQuery)
+      }
     }
   }
 
