@@ -140,10 +140,14 @@ function renderEnergy(
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [lastSearchQuery, setLastSearchQuery] = useState("")
+
+  const [loadingTrackData, setLoadingTrackData] = useState(false)
   const [trackData, setTrackData] = useState<TrackEnergyResponse | undefined>(undefined)
+
   const [loadingTrackSearchResults, setLoadingTrackSearchResults] = useState(false)
-  const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
+  const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[] | undefined>(undefined)
+
   const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
 
@@ -151,6 +155,7 @@ function App() {
    * Fetches track results for the given search query.
    */
   const getSearchResults = (query: string) => {
+    setLastSearchQuery(query)
     setLoadingTrackSearchResults(true)
 
     let endpoint = `${process.env.REACT_APP_API_URL}/TrackSearch?query=${encodeURI(query)}`
@@ -176,7 +181,7 @@ function App() {
    */
   const getEnergy = (trackId: string) => {
     setShowError(false)
-    setLoading(true)
+    setLoadingTrackData(true)
 
     let endpoint = `${process.env.REACT_APP_API_URL}/MusicEnergyCalculator?track=${trackId}`
     fetch(endpoint)
@@ -196,14 +201,18 @@ function App() {
         setTrackData(undefined)
         setShowError(true)
       })
-      .then(() => setLoading(false))
+      .then(() => setLoadingTrackData(false))
   }
 
   /**
    * Renders the given track search results.
    */
-  function renderTrackSearchResults(query: string, results: TrackSearchResult[]) {
-    if (query.length <= 0) {
+  function renderTrackSearchResults(query: string, results: TrackSearchResult[] | undefined) {
+    if (loadingTrackSearchResults) {
+      return <Spinner className="searchResultsSpinner" color="primary" size="sm" />
+    }
+
+    if (results === undefined || query.length <= 0) {
       return null
     }
 
@@ -238,7 +247,7 @@ function App() {
       <button
         className="searchResult"
         onClick={onClick}>
-        <div className="flex">
+        <div className="searchResultContent">
           <img
             className="trackArtworkSmall"
             src={track.artworkUrl}
@@ -290,7 +299,7 @@ function App() {
                 </Button>
               </div>
 
-              {renderTrackSearchResults(searchQuery, trackSearchResults)}
+              {renderTrackSearchResults(lastSearchQuery, trackSearchResults)}
 
               <ButtonGroup className="buttonContainer">
                 <Button
@@ -299,7 +308,7 @@ function App() {
                   disabled={trackData === undefined}
                   onClick={_ => {
                     setTrackData(undefined)
-                    setTrackSearchResults([])
+                    setTrackSearchResults(undefined)
                   }}>
                   Clear
                 </Button>
@@ -315,7 +324,7 @@ function App() {
 
             {renderTrackSummary(trackData)}
 
-            {renderEnergies(trackData, loading, showDescriptions)}
+            {renderEnergies(trackData, loadingTrackData, showDescriptions)}
           </div>
         </div>
       </header>

@@ -45,6 +45,10 @@ h1 {
   display: flex;
 }
 
+.searchResultsSpinner {
+  margin-bottom: 5px;
+}
+
 .searchError {
   font-size: calc(10px + 1vmin);
   margin-bottom: 5px;
@@ -59,8 +63,15 @@ h1 {
 
 .searchResult {
   display: block;
-  width: 100%;
-  margin-top: 5px;
+  margin: 5px;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  border: unset;
+}
+
+.searchResultContent {
+  display: flex;
 }
 
 .trackArtworkSmall {
