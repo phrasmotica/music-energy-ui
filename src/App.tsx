@@ -168,7 +168,7 @@ function App() {
     setShowError(false)
     setLoading(true)
 
-    let endpoint = `${process.env.REACT_APP_API_URL}?track=${trackId}`
+    let endpoint = `${process.env.REACT_APP_API_URL}/MusicEnergyCalculator?track=${trackId}`
     fetch(endpoint)
       .then(response => {
           if (response.status === 200) {
