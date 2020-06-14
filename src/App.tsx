@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Input, Button, ButtonGroup, Spinner } from "reactstrap"
 
 import { TrackEnergyResponse } from "./TrackEnergyResponse"
+import { TrackSearchResult } from './TrackSearchResult'
 
 import './App.css'
 
@@ -138,28 +139,42 @@ function renderEnergy(
 }
 
 function App() {
-  const [url, setUrl] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [loading, setLoading] = useState(false)
   const [trackData, setTrackData] = useState<TrackEnergyResponse | undefined>(undefined)
+  const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
   const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
 
   /**
-   * Fetches energy data for the track at the given URL.
+   * Fetches track results for the given search query.
    */
-  const getEnergyFromUrl = (url: string) => {
-    // url looks like "https://open.spotify.com/track/6NpfAWrIs39a15xlDwHKEK"
-    const regex = /https:\/\/.+spotify.com\/track\/(\w+)/g
-    let matches = url.matchAll(regex)
-    let trackIdMatch = matches.next()
+  const getSearchResults = (query: string) => {
+    setLoading(true)
 
-    if (trackIdMatch.value !== undefined) {
-      let trackId = trackIdMatch.value[1]
-      getEnergy(trackId)
-    }
-    else {
-      setShowError(true)
-    }
+    let endpoint = `${process.env.REACT_APP_API_URL}/TrackSearch?query=${encodeURI(query)}`
+    fetch(endpoint)
+      .then(response => {
+          if (response.status === 200) {
+              return response
+          }
+
+          throw new Error(`Tried to get track results for search query ${query} but failed with status ${response.status}!`)
+      })
+      .then(response => response.json())
+      .then((searchResults: TrackSearchResult[]) => {
+          let concreteResults = searchResults.map(TrackSearchResult.from)
+          setTrackSearchResults(concreteResults)
+
+          if (concreteResults.length > 0) {
+            getEnergy(concreteResults[0].id)
+          }
+          else {
+            setTrackData(undefined)
+            setLoading(false)
+          }
+      })
+      .catch(() => setTrackSearchResults([]))
   }
 
   /**
@@ -190,6 +205,12 @@ function App() {
       .then(() => setLoading(false))
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      getSearchResults(searchQuery)
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -203,24 +224,23 @@ function App() {
 
           <div>
             <div className="searchContainer">
-              <Input
-                className="urlInput"
-                invalid={showError}
-                placeholder="Spotify track URL"
-                onChange={s => {
-                  setUrl(s.target.value)
-                  setShowError(false)
-                }} />
+              <div className="searchBar">
+                <Input
+                  className="searchInput"
+                  placeholder="search for a track"
+                  onChange={e => setSearchQuery(e.target.value)}
+                  onKeyDown={e => handleKeyDown(e)} />
+
+                <Button
+                  color="success"
+                  className="searchButton"
+                  disabled={loading || searchQuery.length <= 0}
+                  onClick={_ => getSearchResults(searchQuery)}>
+                  Search
+                </Button>
+              </div>
 
               <ButtonGroup className="buttonContainer">
-                <Button
-                  color="primary"
-                  className="getButton"
-                  disabled={loading || url.length <= 0}
-                  onClick={_ => getEnergyFromUrl(url)}>
-                  Get Energy
-                </Button>
-
                 <Button
                   color="danger"
                   className="clearButton"

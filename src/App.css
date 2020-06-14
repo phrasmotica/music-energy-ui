@@ -81,11 +81,17 @@ h1 {
   margin-bottom: 5px;
 }
 
-.urlInput {
-  font-size: calc(10px + 0.75vmin);
+.searchBar {
+  display: flex;
+  margin-bottom: 5px;
 }
 
-.getButton {
+.searchInput {
+  font-size: calc(10px + 0.75vmin);
+  margin-right: 5px;
+}
+
+.searchButton {
   font-size: calc(10px + 0.75vmin);
 }
 
@@ -98,14 +104,6 @@ h1 {
 }
 
 @media (min-width: 300px) {
-  .searchContainer {
-    display: block;
-  }
-
-  .urlInput {
-    margin-bottom: 5px;
-  }
-
   .buttonContainer {
     width: 100%;
     display: flex;
@@ -130,17 +128,6 @@ h1 {
 }
 
 @media (min-width: 600px) {
-  .searchContainer {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .urlInput {
-    flex: 1;
-    margin-right: 5px;
-    margin-bottom: 0px;
-  }
-
   .buttonContainer {
     width: unset;
   }
