@@ -8,17 +8,25 @@ function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
   const [trackData, setTrackData] = useState<TrackResponse | undefined>(undefined)
+  const [showError, setShowError] = useState(false)
 
   const getEnergyFromUrl = (url: string) => {
     // url looks like "https://open.spotify.com/track/6NpfAWrIs39a15xlDwHKEK"
     const regex = /https:\/\/.+spotify.com\/track\/(\w+)/g
     let matches = url.matchAll(regex)
     let trackIdMatch = matches.next()
-    let trackId = trackIdMatch.value[1]
-    getEnergy(trackId)
+
+    if (trackIdMatch.value !== undefined) {
+      let trackId = trackIdMatch.value[1]
+      getEnergy(trackId)
+    }
+    else {
+      setShowError(true)
+    }
   }
 
   const getEnergy = (trackId: string) => {
+    setShowError(false)
     setLoading(true)
 
     let endpoint = `${process.env.REACT_APP_API_URL}?track=${trackId}`
@@ -35,7 +43,10 @@ function App() {
           let concreteTrackData = TrackResponse.from(trackData)
           setTrackData(concreteTrackData)
       })
-      .catch(error => console.error(error))
+      .catch(() => {
+        setTrackData(undefined)
+        setShowError(true)
+      })
       .then(() => setLoading(false))
   }
 
@@ -148,8 +159,12 @@ function App() {
             <div className="searchContainer">
               <Input
                 className="urlInput"
+                invalid={showError}
                 placeholder="Spotify track URL"
-                onChange={s => setUrl(s.target.value)} />
+                onChange={s => {
+                  setUrl(s.target.value)
+                  setShowError(false)
+                }} />
 
               <ButtonGroup className="buttonContainer">
                 <Button
