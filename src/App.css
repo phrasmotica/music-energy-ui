@@ -91,9 +91,13 @@ h1 {
   font-size: calc(10px + 0.75vmin);
 }
 
+.infoButton {
+  font-size: calc(10px + 0.75vmin);
+}
+
 @media (min-width: 400px) {
   .searchContainer {
-    display: inline;
+    display: block;
   }
 
   .urlInput {
@@ -102,16 +106,31 @@ h1 {
 
   .buttonContainer {
     width: 100%;
+    display: flex;
+  }
+
+  .buttonContainer > button {
+    width: 100%;
   }
 
   .percentages {
-    display: inline;
+    display: block;
+  }
+
+  .energyContainer {
+    margin-bottom: 5px;
+  }
+
+  .energyContainer-added {
+    border-top: 1px solid white;
+    margin-bottom: 5px;
   }
 }
 
 @media (min-width: 600px) {
   .searchContainer {
     display: flex;
+    margin-bottom: 10px;
   }
 
   .urlInput {
@@ -124,13 +143,37 @@ h1 {
     width: unset;
   }
 
+  .buttonContainer > button {
+    width: unset;
+  }
+
   .percentages {
     display: flex;
+    border-top: unset;
   }
 
   .energyContainer {
     flex: 1;
+    padding: 0px 10px;
+    border-top: unset;
   }
+
+  .energyContainer-added {
+    flex: 1;
+    padding: 0px 10px;
+    border-top: unset;
+    border-left: 1px solid white;
+  }
+}
+
+.energyDescription {
+  font-size: calc(10px + 0.5vmin);
+  width: auto;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0px;
 }
 
 .App-link {

@@ -8,6 +8,7 @@ function App() {
   const [url, setUrl] = useState("")
   const [loading, setLoading] = useState(false)
   const [trackData, setTrackData] = useState<TrackResponse | undefined>(undefined)
+  const [showDescriptions, setShowDescriptions] = useState(false)
   const [showError, setShowError] = useState(false)
 
   const getEnergyFromUrl = (url: string) => {
@@ -94,52 +95,73 @@ function App() {
     // determine which scores should be bold
     let maxScore = track?.getMaxScore() ?? -1
 
+    let data = [
+      {
+        heading: "Monday",
+        score: track?.mondayEnergy,
+        description: "experimental / noise / metal / grind / sixth world / misanthropic stuff"
+      },
+      {
+        heading: "Tuesday",
+        score: track?.tuesdayEnergy,
+        description: "techno / idm / glitch / illbient / deconstructed club / ambient / experimental"
+      },
+      {
+        heading: "Wednesday",
+        score: track?.wednesdayEnergy,
+        description: "ethereal / confident / uplifting / new age / majestic / orchestral / psychedelic"
+      },
+      {
+        heading: "Thursday",
+        score: track?.thursdayEnergy,
+        description: "joyous / confident / enigmatic / arrogant / charismatic"
+      },
+      {
+        heading: "Friday",
+        score: track?.fridayEnergy,
+        description: "rave / hedonistic / party / unhinged / unstoppable"
+      },
+    ]
+
     return (
       <div className="percentages">
-        <div className="energyContainer">
-          <div>
-            <span className="tableHeading">Monday</span>
-          </div>
-          <div>
-            <span>{renderEnergy(track?.mondayEnergy, maxScore)}</span>
-          </div>
-        </div>
+        {data.map((d, i) => {
+          let headingElement = (
+            <div>
+              <span className="tableHeading">{d.heading}</span>
+            </div>
+          )
 
-        <div className="energyContainer">
-          <div>
-            <span className="tableHeading">Tuesday</span>
-          </div>
-          <div>
-            <span>{renderEnergy(track?.tuesdayEnergy, maxScore)}</span>
-          </div>
-        </div>
+          let scoreElement = (
+            <div>
+              {renderEnergy(d.score, maxScore)}
+            </div>
+          )
 
-        <div className="energyContainer">
-          <div>
-            <span className="tableHeading">Wednesday</span>
-          </div>
-          <div>
-            <span>{renderEnergy(track?.wednesdayEnergy, maxScore)}</span>
-          </div>
-        </div>
+          let descriptionClassName = "energyDescription"
+          if (!showDescriptions) {
+            descriptionClassName = "energyDescription hidden"
+          }
 
-        <div className="energyContainer">
-          <div>
-            <span className="tableHeading">Thursday</span>
-          </div>
-          <div>
-            <span>{renderEnergy(track?.thursdayEnergy, maxScore)}</span>
-          </div>
-        </div>
+          let descriptionElement = (
+            <div className={descriptionClassName}>
+              <span>{d.description}</span>
+            </div>
+          )
 
-        <div className="energyContainer">
-          <div>
-            <span className="tableHeading">Friday</span>
-          </div>
-          <div>
-            <span>{renderEnergy(track?.fridayEnergy, maxScore)}</span>
-          </div>
-        </div>
+          let containerClassName = "energyContainer"
+          if (i > 0) {
+            containerClassName += "-added"
+          }
+
+          return (
+            <div className={containerClassName}>
+              {headingElement}
+              {scoreElement}
+              {descriptionElement}
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -181,6 +203,13 @@ function App() {
                   disabled={trackData === undefined}
                   onClick={_ => setTrackData(undefined)}>
                   Clear
+                </Button>
+
+                <Button
+                  color="info"
+                  className="infoButton"
+                  onClick={_ => setShowDescriptions(!showDescriptions)}>
+                  ?
                 </Button>
               </ButtonGroup>
             </div>
