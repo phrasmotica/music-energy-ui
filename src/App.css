@@ -45,6 +45,53 @@ h1 {
   display: flex;
 }
 
+.searchResultsSpinner {
+  margin-bottom: 5px;
+}
+
+.searchError {
+  font-size: calc(10px + 1vmin);
+  margin-bottom: 5px;
+}
+
+.searchResults {
+  font-size: calc(10px + 1vmin);
+  height: min(200px, calc(100px + 10vh));
+  overflow-y: scroll;
+  margin-bottom: 5px;
+}
+
+.searchResult {
+  display: block;
+  margin: 5px;
+  padding: 5px;
+  background-color: black;
+  color: white;
+  border: unset;
+}
+
+.searchResultContent {
+  display: flex;
+}
+
+.trackArtworkSmall {
+  height: calc(6 * min(1vw, 1vh));
+  width: calc(6 * min(1vw, 1vh));
+  margin-right: 10px;
+}
+
+.songNameSmall {
+  font-size: calc(10px + 0.5vmin);
+}
+
+.artistNameSmall {
+  font-size: calc(10px + 0.25vmin);
+}
+
+.albumNameSmall {
+  font-size: calc(10px + 0.25vmin);
+}
+
 .trackSummary {
   display: flex;
   justify-content: center;
@@ -81,11 +128,17 @@ h1 {
   margin-bottom: 5px;
 }
 
-.urlInput {
-  font-size: calc(10px + 0.75vmin);
+.searchBar {
+  display: flex;
+  margin-bottom: 5px;
 }
 
-.getButton {
+.searchInput {
+  font-size: calc(10px + 0.75vmin);
+  margin-right: 5px;
+}
+
+.searchButton {
   font-size: calc(10px + 0.75vmin);
 }
 
@@ -98,14 +151,6 @@ h1 {
 }
 
 @media (min-width: 300px) {
-  .searchContainer {
-    display: block;
-  }
-
-  .urlInput {
-    margin-bottom: 5px;
-  }
-
   .buttonContainer {
     width: 100%;
     display: flex;
@@ -130,17 +175,6 @@ h1 {
 }
 
 @media (min-width: 600px) {
-  .searchContainer {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .urlInput {
-    flex: 1;
-    margin-right: 5px;
-    margin-bottom: 0px;
-  }
-
   .buttonContainer {
     width: unset;
   }
