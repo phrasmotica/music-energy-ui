@@ -103,7 +103,7 @@ function renderEnergies(
         }
 
         return (
-          <div className={containerClassName}>
+          <div className={containerClassName} key={i}>
             {headingElement}
             {scoreElement}
             {descriptionElement}
