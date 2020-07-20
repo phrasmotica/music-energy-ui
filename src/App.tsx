@@ -186,16 +186,16 @@ function App() {
     let endpoint = `${process.env.REACT_APP_API_URL}/MusicEnergyCalculator?track=${trackId}`
     fetch(endpoint)
       .then(response => {
-          if (response.status === 200) {
-              return response
-          }
+        if (response.status === 200) {
+            return response
+        }
 
-          throw new Error(`Tried to get energy for track ${trackId} but failed with status ${response.status}!`)
+        throw new Error(`Tried to get energy for track ${trackId} but failed with status ${response.status}!`)
       })
       .then(response => response.json())
       .then((trackData: TrackEnergyResponse) => {
-          let concreteTrackData = TrackEnergyResponse.from(trackData)
-          setTrackData(concreteTrackData)
+        let concreteTrackData = TrackEnergyResponse.from(trackData)
+        setTrackData(concreteTrackData)
       })
       .catch(() => {
         setTrackData(undefined)
