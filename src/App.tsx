@@ -149,7 +149,6 @@ function App() {
   const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[] | undefined>(undefined)
 
   const [showDescriptions, setShowDescriptions] = useState(false)
-  const [showError, setShowError] = useState(false)
 
   /**
    * Fetches track results for the given search query.
@@ -180,7 +179,6 @@ function App() {
    * Fetches energy data for the track with the given ID.
    */
   const getEnergy = (trackId: string) => {
-    setShowError(false)
     setLoadingTrackData(true)
 
     let endpoint = `${process.env.REACT_APP_API_URL}/MusicEnergyCalculator?track=${trackId}`
@@ -197,10 +195,7 @@ function App() {
         let concreteTrackData = TrackEnergyResponse.from(trackData)
         setTrackData(concreteTrackData)
       })
-      .catch(() => {
-        setTrackData(undefined)
-        setShowError(true)
-      })
+      .catch(() => setTrackData(undefined))
       .then(() => setLoadingTrackData(false))
   }
 
@@ -326,6 +321,16 @@ function App() {
 
             {renderEnergies(trackData, loadingTrackData, showDescriptions)}
           </div>
+        </div>
+
+        <div id="footer">
+          <a href="https://twitter.com/phrasmotica" target="_blank" rel="noopener noreferrer">
+            Twitter
+          </a>
+
+          <a href="https://www.patreon.com/" target="_blank" rel="noopener noreferrer">
+            Patreon
+          </a>
         </div>
       </header>
     </div>
