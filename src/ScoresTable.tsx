@@ -1,4 +1,4 @@
-import { Spinner } from "reactstrap"
+import { Progress } from "reactstrap"
 
 import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
@@ -47,21 +47,33 @@ export const ScoresTable = (props: ScoresTableProps) => {
     ]
 
     const renderEnergy = (score: number | undefined, maxScore: number) => {
-        // TODO: render as a progress bar with a ?
-        let scoreElement = <span>?</span>
+        let scoreElement = (
+            <Progress className="score missing" striped value={50}>
+                <span>?</span>
+            </Progress>
+        )
+
+        let percentage = score ? Math.trunc(100 * score) : 50
 
         if (props.loadingTrackData) {
-            // TODO: render as an animated progress bar
-            scoreElement = <Spinner color="primary" size="sm" />
+            scoreElement = (
+                <Progress className="score missing" animated value={percentage}>
+                    <span>...</span>
+                </Progress>
+            )
         }
         else if (score !== undefined) {
-            // TODO: render as a progress bar
-            let percentage = Math.trunc(100 * score)
-            scoreElement = <span>{percentage}%</span>
+            let className = "score"
 
             if (percentage >= Math.trunc(100 * maxScore)) {
-                scoreElement = <b>{scoreElement}</b>
+                className += " bolded"
             }
+
+            let colour = computeColour(percentage)
+
+            scoreElement = <Progress className={className} color={colour} value={percentage}>
+                <span>{percentage}%</span>
+            </Progress>
         }
 
         return scoreElement
@@ -100,4 +112,20 @@ const getMaxScore = (track: TrackEnergyResponse | undefined) => {
     ]
 
     return scores.reduce((x, y) => Math.max(x, y))
+}
+
+const computeColour = (percentage: number) => {
+    if (percentage >= 80) {
+        return "success"
+    }
+
+    if (percentage >= 50) {
+        return "info"
+    }
+
+    if (percentage >= 25) {
+        return "warning"
+    }
+
+    return "danger"
 }

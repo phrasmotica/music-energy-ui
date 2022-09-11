@@ -107,24 +107,50 @@
   width: 100%;
 }
 
-.percentages > .energy-container {
-  margin-bottom: 5px;
-}
-
 .percentages > .energy-container:not(:first-child) {
+  margin-top: 5px;
   border-top: 1px solid white;
-  margin-bottom: 5px;
+  padding-top: 5px;
 }
 
 .percentages > .energy-container > .energy-container-cell {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 16pt;
 }
 
 .percentages > .energy-container > .energy-description {
   display: flex;
   align-items: flex-start;
   font-style: italic;
+}
+
+.energy-container-cell > span {
+  width: 120px;
+  margin-right: 10px;
+  font-size: 16pt;
+  text-align: right;
+}
+
+.progress.score {
+  flex: 1;
+  height: 2rem;
+  font-size: 14pt;
+}
+
+.progress.score span {
+  text-align: right;
+  margin-right: 0.5em;
+}
+
+.progress.score.missing > .progress-bar {
+  background-color: grey;
+}
+
+.progress.score.loading > .progress-bar {
+  background-color: grey;
+}
+
+.progress.score.bolded > .progress-bar {
+  font-weight: bold;
 }
