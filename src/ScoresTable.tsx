@@ -5,7 +5,6 @@ import { TrackEnergyResponse } from "./TrackEnergyResponse"
 interface ScoresTableProps {
     track: TrackEnergyResponse | undefined
     loadingTrackData: boolean
-    showDescriptions: boolean
 }
 
 export const ScoresTable = (props: ScoresTableProps) => {
@@ -53,7 +52,6 @@ export const ScoresTable = (props: ScoresTableProps) => {
                     key={i}
                     detail={d}
                     loading={props.loadingTrackData}
-                    showDescription={props.showDescriptions}
                     maxScore={maxScore} />
             ))}
         </div>

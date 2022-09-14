@@ -1,4 +1,7 @@
-import { Progress } from "reactstrap"
+import { useState } from "react"
+import { Collapse, Progress } from "reactstrap"
+import { Button, Icon } from "semantic-ui-react"
+import { SemanticICONS } from "semantic-ui-react/dist/commonjs/generic"
 
 interface EnergyBarProps {
     detail: {
@@ -8,11 +11,12 @@ interface EnergyBarProps {
     }
 
     loading: boolean
-    showDescription: boolean
     maxScore: number
 }
 
 export const EnergyBar = (props: EnergyBarProps) => {
+    const [showDescription, setShowDescription] = useState(false)
+
     const renderEnergyBar = (score: number | undefined) => {
         let scoreElement = (
             <Progress className="score missing" striped value={50}>
@@ -48,17 +52,25 @@ export const EnergyBar = (props: EnergyBarProps) => {
 
     let d = props.detail
 
+    let iconName: SemanticICONS = showDescription ? "chevron up" : "chevron down"
+
     return (
         <div className="energy-container">
             <div className="energy-container-cell">
                 <span>{d.heading}</span>
 
+                <Button icon onClick={() => setShowDescription(!showDescription)}>
+                    <Icon fitted name={iconName} />
+                </Button>
+
                 {renderEnergyBar(d.score)}
             </div>
 
-            {props.showDescription && <div className="energy-description">
-                <span>{d.description}</span>
-            </div>}
+            <Collapse isOpen={showDescription}>
+                <div className="energy-description">
+                    <span>{d.description}</span>
+                </div>
+            </Collapse>
         </div>
     )
 }

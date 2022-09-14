@@ -22,7 +22,6 @@ const App = () => {
     const [loadingTrackSearchResults, setLoadingTrackSearchResults] = useState(false)
     const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
 
-    const [showDescriptions, setShowDescriptions] = useState(false)
     const [showError, setShowError] = useState(false)
 
     const getSearchResults = (query: string) => {
@@ -104,12 +103,6 @@ const App = () => {
                             onClick={clear}>
                             Clear
                         </Button>
-
-                        <Button
-                            color="info"
-                            onClick={() => setShowDescriptions(!showDescriptions)}>
-                            ?
-                        </Button>
                     </ButtonGroup>
                 </div>
 
@@ -117,8 +110,7 @@ const App = () => {
 
                 <ScoresTable
                     track={trackData}
-                    loadingTrackData={loadingTrackData}
-                    showDescriptions={showDescriptions} />
+                    loadingTrackData={loadingTrackData} />
             </div>
         </div>
     )
