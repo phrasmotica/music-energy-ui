@@ -1,4 +1,4 @@
-import { Progress } from "reactstrap"
+import { EnergyBar } from "./EnergyBar"
 
 import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
@@ -46,53 +46,15 @@ export const ScoresTable = (props: ScoresTableProps) => {
         },
     ]
 
-    const renderEnergy = (score: number | undefined, maxScore: number) => {
-        let scoreElement = (
-            <Progress className="score missing" striped value={50}>
-                <span>?</span>
-            </Progress>
-        )
-
-        let percentage = score ? Math.trunc(100 * score) : 50
-
-        if (props.loadingTrackData) {
-            scoreElement = (
-                <Progress className="score missing" animated value={percentage}>
-                    <span>...</span>
-                </Progress>
-            )
-        }
-        else if (score !== undefined) {
-            let className = "score"
-
-            if (percentage >= Math.trunc(100 * maxScore)) {
-                className += " bolded"
-            }
-
-            let colour = computeColour(percentage)
-
-            scoreElement = <Progress className={className} color={colour} value={percentage}>
-                <span>{percentage}%</span>
-            </Progress>
-        }
-
-        return scoreElement
-    }
-
     return (
         <div className="percentages">
             {data.map((d, i) => (
-                <div key={i} className="energy-container">
-                    <div className="energy-container-cell">
-                        <span>{d.heading}</span>
-
-                        {renderEnergy(d.score, maxScore)}
-                    </div>
-
-                    {props.showDescriptions && <div className="energy-description">
-                        <span>{d.description}</span>
-                    </div>}
-                </div>
+                <EnergyBar
+                    key={i}
+                    detail={d}
+                    loading={props.loadingTrackData}
+                    showDescription={props.showDescriptions}
+                    maxScore={maxScore} />
             ))}
         </div>
     )
@@ -112,20 +74,4 @@ const getMaxScore = (track: TrackEnergyResponse | undefined) => {
     ]
 
     return scores.reduce((x, y) => Math.max(x, y))
-}
-
-const computeColour = (percentage: number) => {
-    if (percentage >= 80) {
-        return "success"
-    }
-
-    if (percentage >= 50) {
-        return "info"
-    }
-
-    if (percentage >= 25) {
-        return "warning"
-    }
-
-    return "danger"
 }
