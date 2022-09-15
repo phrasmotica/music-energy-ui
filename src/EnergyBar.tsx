@@ -59,7 +59,7 @@ export const EnergyBar = (props: EnergyBarProps) => {
             <div className="energy-container-cell">
                 <span>{d.heading}</span>
 
-                <Button icon onClick={() => setShowDescription(!showDescription)}>
+                <Button icon compact onClick={() => setShowDescription(!showDescription)}>
                     <Icon fitted name={iconName} />
                 </Button>
 

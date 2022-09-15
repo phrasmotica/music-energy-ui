@@ -132,6 +132,11 @@
   text-align: right;
 }
 
+.energy-container-cell > button.ui.compact.icon.button {
+  border-radius: 0.375rem;
+  height: 2rem;
+}
+
 .progress.score {
   flex: 1;
   height: 2rem;
