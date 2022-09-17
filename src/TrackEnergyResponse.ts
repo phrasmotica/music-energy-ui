@@ -16,9 +16,9 @@ export interface TrackEnergyResponse {
     normalisedLoudness: number
     speechiness: number
     valence: number
-    mondayEnergy: number
-    tuesdayEnergy: number
-    wednesdayEnergy: number
-    thursdayEnergy: number
-    fridayEnergy: number
+    misanthropy: number
+    hypnotism: number
+    majesty: number
+    confidence: number
+    hedonism: number
 }

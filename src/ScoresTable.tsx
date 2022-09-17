@@ -15,32 +15,32 @@ export const ScoresTable = (props: ScoresTableProps) => {
 
     let data = [
         {
-            heading: "Monday",
-            score: trackData?.mondayEnergy,
+            heading: "Misanthropy",
+            score: trackData?.misanthropy,
             description:
                 "experimental / noise / metal / grind / sixth world / misanthropic stuff",
         },
         {
-            heading: "Tuesday",
-            score: trackData?.tuesdayEnergy,
+            heading: "Hypnotism",
+            score: trackData?.hypnotism,
             description:
                 "techno / idm / glitch / illbient / deconstructed club / ambient / experimental",
         },
         {
-            heading: "Wednesday",
-            score: trackData?.wednesdayEnergy,
+            heading: "Majesty",
+            score: trackData?.majesty,
             description:
                 "ethereal / confident / uplifting / new age / majestic / orchestral / psychedelic",
         },
         {
-            heading: "Thursday",
-            score: trackData?.thursdayEnergy,
+            heading: "Confidence",
+            score: trackData?.confidence,
             description:
                 "joyous / confident / enigmatic / arrogant / charismatic",
         },
         {
-            heading: "Friday",
-            score: trackData?.fridayEnergy,
+            heading: "Hedonism",
+            score: trackData?.hedonism,
             description: "rave / hedonistic / party / unhinged / unstoppable",
         },
     ]
@@ -64,11 +64,11 @@ const getMaxScore = (track: TrackEnergyResponse | undefined) => {
     }
 
     const scores = [
-        track.mondayEnergy,
-        track.tuesdayEnergy,
-        track.wednesdayEnergy,
-        track.thursdayEnergy,
-        track.fridayEnergy,
+        track.misanthropy,
+        track.hypnotism,
+        track.majesty,
+        track.confidence,
+        track.hedonism,
     ]
 
     return scores.reduce((x, y) => Math.max(x, y))

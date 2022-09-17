@@ -70,14 +70,14 @@ const App = () => {
                     <h1>Music Energy Calculator</h1>
 
                     <span className="subheading">
-                        See which day suits your favourite song the best!
+                        Discover the traits of your favourite songs!
                     </span>
                 </div>
 
                 <div>
                     <div className="search-bar">
                         <Input
-                            placeholder="search for a track"
+                            placeholder="Search for a song!"
                             onChange={e => setSearchQuery(e.target.value)}
                             onKeyDown={e => handleKeyDown(e)} />
 
