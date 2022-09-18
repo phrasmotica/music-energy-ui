@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
+import { exportComponentAsJPEG } from "react-component-export-image"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
 import { fetchEnergy, fetchTrackSearchResults } from "./FetchHelpers"
@@ -10,6 +11,17 @@ import { TrackSearchResult } from "./TrackSearchResult"
 import { TrackSummary } from "./TrackSummary"
 
 import "./App.css"
+
+// ensures exported images do not have extra padding on the left
+// https://github.com/im-salman/react-component-export-image/issues/36#issuecomment-769225313
+const imageParams = {
+    html2CanvasOptions: {
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: document.documentElement.offsetHeight,
+    }
+}
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState("")
@@ -23,6 +35,8 @@ const App = () => {
     const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
 
     const [showError, setShowError] = useState(false)
+
+    const shareComponentRef = useRef(null)
 
     const getSearchResults = (query: string) => {
         setLastSearchQuery(query)
@@ -99,18 +113,27 @@ const App = () => {
                     <ButtonGroup className="button-container">
                         <Button
                             color="danger"
-                            disabled={trackData === undefined}
+                            disabled={!trackData}
                             onClick={clear}>
                             Clear
+                        </Button>
+
+                        <Button
+                            color="primary"
+                            disabled={!trackData}
+                            onClick={() => exportComponentAsJPEG(shareComponentRef, imageParams)}>
+                            Share
                         </Button>
                     </ButtonGroup>
                 </div>
 
-                {trackData && <TrackSummary track={trackData} />}
+                <div className="shareable" ref={shareComponentRef}>
+                    {trackData && <TrackSummary track={trackData} />}
 
-                <ScoresTable
-                    track={trackData}
-                    loadingTrackData={loadingTrackData} />
+                    <ScoresTable
+                        track={trackData}
+                        loadingTrackData={loadingTrackData} />
+                </div>
             </div>
         </div>
     )

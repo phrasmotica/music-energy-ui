@@ -33,7 +33,7 @@ export const EnergyBar = (props: EnergyBarProps) => {
                 </Progress>
             )
         }
-        else if (score !== undefined) {
+        else if (score) {
             let className = "score"
 
             if (percentage >= Math.trunc(100 * props.maxScore)) {
