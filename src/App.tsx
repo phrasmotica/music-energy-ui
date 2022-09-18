@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
 import { copyToClipboard, saveAsPng } from "./ExportHelpers"
@@ -28,9 +28,6 @@ const App = () => {
     const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
 
     const [copyMessage, setCopyMessage] = useState<string>()
-    const [showError, setShowError] = useState(false)
-
-    const shareComponentRef = useRef(null)
 
     useEffect(() => {
         if (trackData && !imageUrlMap[trackData.artworkUrl]) {
@@ -63,14 +60,12 @@ const App = () => {
     }
 
     const getEnergy = (trackId: string) => {
-        setShowError(false)
         setLoadingTrackData(true)
 
         fetchEnergy(trackId)
             .then(setTrackData)
             .catch(() => {
                 setTrackData(undefined)
-                setShowError(true)
             })
             .finally(() => setLoadingTrackData(false))
     }
@@ -85,7 +80,6 @@ const App = () => {
         setTrackData(undefined)
         setTrackSearchResults([])
         setSearchError(false)
-        setShowError(false)
     }
 
     const onCopy = () => peekCopyMessage("Copied to clipboard!")
@@ -153,7 +147,7 @@ const App = () => {
                     </ButtonGroup>
                 </div>
 
-                <div id="shareable" ref={shareComponentRef}>
+                <div id="shareable">
                     {trackData && <TrackSummary
                         track={trackData}
                         imageUrl={imageUrlMap[trackData.artworkUrl]} />}
