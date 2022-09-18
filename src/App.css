@@ -107,7 +107,7 @@
   width: 100%;
 }
 
-.shareable {
+#shareable {
   padding: 5px;
   background-color: darkslategrey;
   border-radius: 0.375rem;

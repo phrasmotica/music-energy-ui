@@ -2,6 +2,7 @@ import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
 interface TrackSummaryProps {
     track: TrackEnergyResponse
+    imageUrl: string | undefined
 }
 
 export const TrackSummary = (props: TrackSummaryProps) => {
@@ -9,7 +10,7 @@ export const TrackSummary = (props: TrackSummaryProps) => {
         <div className="track-summary">
             <img
                 className="track-artwork"
-                src={props.track.artworkUrl}
+                src={props.imageUrl}
                 alt={props.track.name} />
 
             <div>

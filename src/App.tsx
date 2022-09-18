@@ -1,8 +1,8 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { exportComponentAsJPEG } from "react-component-export-image"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
-import { createExportParams } from "./ExportHelpers"
+import { copyToClipboard, createExportParams } from "./ExportHelpers"
 import { fetchEnergy, fetchTrackSearchResults } from "./FetchHelpers"
 
 import { ScoresTable } from "./ScoresTable"
@@ -13,6 +13,8 @@ import { TrackSummary } from "./TrackSummary"
 
 import "./App.css"
 
+type StringMap = { [key: string]: string }
+
 const App = () => {
     const [searchQuery, setSearchQuery] = useState("")
     const [lastSearchQuery, setLastSearchQuery] = useState("")
@@ -21,12 +23,32 @@ const App = () => {
     const [loadingTrackData, setLoadingTrackData] = useState(false)
     const [trackData, setTrackData] = useState<TrackEnergyResponse>()
 
+    const [imageUrlMap, setImageUrlMap] = useState<StringMap>({})
+
     const [loadingTrackSearchResults, setLoadingTrackSearchResults] = useState(false)
     const [trackSearchResults, setTrackSearchResults] = useState<TrackSearchResult[]>([])
 
+    const [copyMessage, setCopyMessage] = useState<string>()
     const [showError, setShowError] = useState(false)
 
     const shareComponentRef = useRef(null)
+
+    useEffect(() => {
+        if (trackData && !imageUrlMap[trackData.artworkUrl]) {
+            // download artwork locally (if we don't already have it) so it can
+            // be copied to clipboard. This is an html2canvas limitation
+            // https://stackoverflow.com/a/66079045
+            fetch(trackData.artworkUrl)
+            .then(res => res.blob())
+            .then(blob => URL.createObjectURL(blob))
+            .then(url => {
+                setImageUrlMap(map => ({
+                    [trackData.artworkUrl]: url,
+                    ...map,
+                }))
+            })
+        }
+    }, [trackData, imageUrlMap])
 
     const getSearchResults = (query: string) => {
         setLastSearchQuery(query)
@@ -65,6 +87,14 @@ const App = () => {
         setTrackSearchResults([])
         setSearchError(false)
         setShowError(false)
+    }
+
+    const onCopy = () => peekCopyMessage("Copied to clipboard!")
+    const onFailToCopy = () => peekCopyMessage("Failed to copy!")
+
+    const peekCopyMessage = (msg: string) => {
+        setCopyMessage(msg)
+        setTimeout(() => setCopyMessage(undefined), 3000)
     }
 
     return (
@@ -110,6 +140,13 @@ const App = () => {
 
                         <Button
                             color="primary"
+                            disabled={!trackData || copyMessage !== undefined}
+                            onClick={() => copyToClipboard(onCopy, onFailToCopy)}>
+                            {copyMessage ?? "Copy to clipboard"}
+                        </Button>
+
+                        <Button
+                            color="primary"
                             disabled={!trackData}
                             onClick={() => exportComponentAsJPEG(shareComponentRef, createExportParams(trackData!))}>
                             Download as JPEG
@@ -117,8 +154,10 @@ const App = () => {
                     </ButtonGroup>
                 </div>
 
-                <div className="shareable" ref={shareComponentRef}>
-                    {trackData && <TrackSummary track={trackData} />}
+                <div id="shareable" ref={shareComponentRef}>
+                    {trackData && <TrackSummary
+                        track={trackData}
+                        imageUrl={imageUrlMap[trackData.artworkUrl]} />}
 
                     <ScoresTable
                         track={trackData}

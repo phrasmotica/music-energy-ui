@@ -1,3 +1,4 @@
+import html2canvas from "html2canvas"
 import moment from "moment"
 import { Params } from "react-component-export-image"
 
@@ -28,3 +29,18 @@ export const createExportParams = (trackData: TrackEnergyResponse) => ({
         windowHeight: document.documentElement.offsetHeight,
     }
 }) as Params
+
+export const copyToClipboard = (onCopy: () => void, onFail: () => void) => {
+    const element = document.getElementById("shareable")!
+
+    html2canvas(element)
+    .then(canvas => canvas.toBlob(blob => {
+        navigator.clipboard.write([
+            new ClipboardItem({
+                [blob!.type]: blob!
+            })
+        ])
+        .then(onCopy)
+        .catch(onFail)
+    }))
+}
