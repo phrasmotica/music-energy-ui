@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { exportComponentAsJPEG } from "react-component-export-image"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
+import { createExportParams } from "./ExportHelpers"
 import { fetchEnergy, fetchTrackSearchResults } from "./FetchHelpers"
 
 import { ScoresTable } from "./ScoresTable"
@@ -11,17 +12,6 @@ import { TrackSearchResult } from "./TrackSearchResult"
 import { TrackSummary } from "./TrackSummary"
 
 import "./App.css"
-
-// ensures exported images do not have extra padding on the left
-// https://github.com/im-salman/react-component-export-image/issues/36#issuecomment-769225313
-const imageParams = {
-    html2CanvasOptions: {
-        scrollX: -window.scrollX,
-        scrollY: -window.scrollY,
-        windowWidth: document.documentElement.offsetWidth,
-        windowHeight: document.documentElement.offsetHeight,
-    }
-}
 
 const App = () => {
     const [searchQuery, setSearchQuery] = useState("")
@@ -121,8 +111,8 @@ const App = () => {
                         <Button
                             color="primary"
                             disabled={!trackData}
-                            onClick={() => exportComponentAsJPEG(shareComponentRef, imageParams)}>
-                            Share
+                            onClick={() => exportComponentAsJPEG(shareComponentRef, createExportParams(trackData!))}>
+                            Download as JPEG
                         </Button>
                     </ButtonGroup>
                 </div>
