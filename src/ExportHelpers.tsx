@@ -23,6 +23,7 @@ export const createExportParams = (trackData: TrackEnergyResponse) => ({
     // ensures exported images do not have extra padding on the left
     // https://github.com/im-salman/react-component-export-image/issues/36#issuecomment-769225313
     html2CanvasOptions: {
+        backgroundColor: null,
         scrollX: -window.scrollX,
         scrollY: -window.scrollY,
         windowWidth: document.documentElement.offsetWidth,

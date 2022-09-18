@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { exportComponentAsJPEG } from "react-component-export-image"
+import { exportComponentAsPNG } from "react-component-export-image"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
 import { copyToClipboard, createExportParams } from "./ExportHelpers"
@@ -148,8 +148,8 @@ const App = () => {
                         <Button
                             color="primary"
                             disabled={!trackData}
-                            onClick={() => exportComponentAsJPEG(shareComponentRef, createExportParams(trackData!))}>
-                            Download as JPEG
+                            onClick={() => exportComponentAsPNG(shareComponentRef, createExportParams(trackData!))}>
+                            Download as PNG
                         </Button>
                     </ButtonGroup>
                 </div>
