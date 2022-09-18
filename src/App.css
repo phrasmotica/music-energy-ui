@@ -169,3 +169,11 @@
 .progress.score.bolded > .progress-bar {
   font-weight: bold;
 }
+
+.watermark {
+  display: none;
+}
+
+.show-watermark .watermark {
+  display: block;
+}

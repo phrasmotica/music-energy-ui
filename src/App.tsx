@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react"
-import { exportComponentAsPNG } from "react-component-export-image"
 import { Input, Button, ButtonGroup } from "reactstrap"
 
-import { copyToClipboard, createExportParams } from "./ExportHelpers"
+import { copyToClipboard, saveAsPng } from "./ExportHelpers"
 import { fetchEnergy, fetchTrackSearchResults } from "./FetchHelpers"
 
 import { ScoresTable } from "./ScoresTable"
@@ -148,7 +147,7 @@ const App = () => {
                         <Button
                             color="primary"
                             disabled={!trackData}
-                            onClick={() => exportComponentAsPNG(shareComponentRef, createExportParams(trackData!))}>
+                            onClick={() => saveAsPng(trackData!)}>
                             Download as PNG
                         </Button>
                     </ButtonGroup>
@@ -162,6 +161,10 @@ const App = () => {
                     <ScoresTable
                         track={trackData}
                         loadingTrackData={loadingTrackData} />
+
+                    <div className="watermark">
+                        <span>https://musicenergy.azurewebsites.com</span>
+                    </div>
                 </div>
             </div>
         </div>
