@@ -137,12 +137,12 @@
 
 .energy-container-cell > span {
   width: 120px;
-  margin-right: 10px;
+  margin-right: 0.25em;
   font-size: 16pt;
   text-align: right;
 }
 
-.energy-container-cell > button.ui.compact.icon.button {
+.description-button > button.ui.compact.icon.button {
   border-radius: 0.375rem;
   height: 2rem;
 }
@@ -170,10 +170,14 @@
   font-weight: bold;
 }
 
+.shareable .description-button {
+  display: none;
+}
+
 .watermark {
   display: none;
 }
 
-.show-watermark .watermark {
+.shareable .watermark {
   display: block;
 }

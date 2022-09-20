@@ -9,7 +9,7 @@ const createCanvas = () => {
     return html2canvas(element, {
         backgroundColor: null,
         onclone: (_, element) => {
-            element.className += " show-watermark"
+            element.className += " shareable"
         }
     })
 }
