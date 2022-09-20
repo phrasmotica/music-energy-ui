@@ -35,14 +35,14 @@ const App = () => {
             // be copied to clipboard. This is an html2canvas limitation
             // https://stackoverflow.com/a/66079045
             fetch(trackData.artworkUrl)
-            .then(res => res.blob())
-            .then(blob => URL.createObjectURL(blob))
-            .then(url => {
-                setImageUrlMap(map => ({
-                    [trackData.artworkUrl]: url,
-                    ...map,
-                }))
-            })
+                .then(res => res.blob())
+                .then(blob => URL.createObjectURL(blob))
+                .then(url => {
+                    setImageUrlMap(map => ({
+                        [trackData.artworkUrl]: url,
+                        ...map,
+                    }))
+                })
         }
     }, [trackData, imageUrlMap])
 
@@ -64,9 +64,7 @@ const App = () => {
 
         fetchEnergy(trackId)
             .then(setTrackData)
-            .catch(() => {
-                setTrackData(undefined)
-            })
+            .catch(() => setTrackData(undefined))
             .finally(() => setLoadingTrackData(false))
     }
 
@@ -89,6 +87,8 @@ const App = () => {
         setCopyMessage(msg)
         setTimeout(() => setCopyMessage(undefined), 3000)
     }
+
+    const allowCopyToClipboard = process.env.REACT_APP_ALLOW_COPY_TO_CLIPBOARD?.toLowerCase() === "true"
 
     return (
         <div className="app">
@@ -131,12 +131,12 @@ const App = () => {
                             Clear
                         </Button>
 
-                        <Button
+                        {allowCopyToClipboard && <Button
                             color="primary"
                             disabled={!trackData || copyMessage !== undefined}
                             onClick={() => copyToClipboard(onCopy, onFailToCopy)}>
                             {copyMessage ?? "Copy to clipboard"}
-                        </Button>
+                        </Button>}
 
                         <Button
                             color="primary"

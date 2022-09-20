@@ -27,12 +27,10 @@ const createFileName = (trackData: TrackEnergyResponse) => {
     return [artistCleaned, nameCleaned, timestamp].join("-")
 }
 
-const downloadImage = (blob: any, fileName: string) => {
+const downloadImage = (blob: string, fileName: string) => {
     const fakeLink = document.createElement("a")
 
-    // fakeLink.style = "display:none;"
     fakeLink.download = fileName
-
     fakeLink.href = blob
 
     document.body.appendChild(fakeLink)
@@ -51,6 +49,9 @@ export const saveAsPng = (trackData: TrackEnergyResponse) => {
 export const copyToClipboard = (onCopy: () => void, onFail: () => void) => {
     createCanvas()
     .then(canvas => canvas.toBlob(blob => {
+        // this clipboard API is not supported on iOS/Android.
+        // Should use @react-native-clipboard/clipboard instead
+        // once it is compatible with React 18.2.0
         navigator.clipboard.write([
             new ClipboardItem({
                 [blob!.type]: blob!
