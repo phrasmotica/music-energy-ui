@@ -3,12 +3,27 @@ import moment from "moment"
 
 import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
+const treatSvgs = (document: Document) => {
+    // treat all SVG elements (QR code!) so they render properly
+    // https://stackoverflow.com/a/59162619
+    var svgElements = document.body.querySelectorAll("svg")
+    svgElements.forEach(item => {
+        item.setAttribute("width", item.getBoundingClientRect().width.toString())
+        item.setAttribute("height", item.getBoundingClientRect().height.toString())
+
+        item.style.width = ""
+        item.style.height = ""
+    })
+}
+
 const createCanvas = () => {
     const element = document.getElementById("shareable")!
 
     return html2canvas(element, {
         backgroundColor: null,
-        onclone: (_, element) => {
+        onclone: (document, element) => {
+            treatSvgs(document)
+
             element.className += " shareable"
         }
     })

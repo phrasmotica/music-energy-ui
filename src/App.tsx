@@ -9,6 +9,7 @@ import { SearchResults } from "./SearchResults"
 import { TrackEnergyResponse } from "./TrackEnergyResponse"
 import { TrackSearchResult } from "./TrackSearchResult"
 import { TrackSummary } from "./TrackSummary"
+import { Watermark } from "./Watermark"
 
 import "./App.css"
 
@@ -156,9 +157,7 @@ const App = () => {
                         track={trackData}
                         loadingTrackData={loadingTrackData} />
 
-                    <div className="watermark">
-                        <span>https://musicenergy.azurewebsites.com</span>
-                    </div>
+                    <Watermark />
                 </div>
             </div>
         </div>
