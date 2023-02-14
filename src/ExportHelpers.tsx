@@ -5,6 +5,7 @@ import { TrackEnergyResponse } from "./TrackEnergyResponse"
 
 const treatSvgs = (document: Document) => {
     // treat all SVG elements (QR code!) so they render properly
+    // TODO: this isn't working for some reason?
     // https://stackoverflow.com/a/59162619
     var svgElements = document.body.querySelectorAll("svg")
     svgElements.forEach(item => {
