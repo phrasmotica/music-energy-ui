@@ -1,18 +1,26 @@
-# Deployment to Azure App Services
+# Deployment
 
-## Configuring app settings
+## GitHub Pages
 
-Set the following app settings:
-- **REACT_APP_API_URL** - URL of the Music Energy API
+Run `npm run deploy -- -m "{commitMessage}"`, this should push the latest build of the app to the remote `gh-pages` branch and deploy it to GitHub Pages.
 
-## Configuring site startup
+## Azure App Services
 
-Set the following app settings to the desired port number `P`:
-- **PORT**
-- **WEBSITES_PORT**
+### Building the app
 
-Ensure you run `az webapp config set --resource-group <groupName> --name <appName> --startup-file "npm i -g serve && serve -l <P> -s build"`, where `<P>` is the port number, in the cloud shell. Otherwise the site will attempt to start up with `npm start`, which is only the development server.
+Run `npm run build` locally.
 
-## Enabling HTTPS redirection
+### Before deploying
 
-Enable HTTPS Only in the TLS/SSL settings panel.
+Ensure `node_modules{,/**}` and `.vscode{,/**}` are listed under the `appService.zipIgnorePattern` array in `.vscode/settings.json`. This will ensure unnecessary files are not packed into the ZIP file, which will speed things up.
+
+### Deploying
+
+Run the deployment from VSCode.
+
+### Configuring app settings
+
+Set the following general settings:
+
+- startup command - `npx serve -l 8080 build`
+- enable HTTPS Only

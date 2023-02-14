@@ -24,4 +24,3 @@ yarn-error.log*
 
 # Visual Studio Code settings
 .vscode/
-.env
