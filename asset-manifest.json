@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/music-energy-ui/static/css/main.f789daa1.css",
+    "main.js": "/music-energy-ui/static/js/main.0da1fcdb.js",
+    "index.html": "/music-energy-ui/index.html",
+    "main.f789daa1.css.map": "/music-energy-ui/static/css/main.f789daa1.css.map",
+    "main.0da1fcdb.js.map": "/music-energy-ui/static/js/main.0da1fcdb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f789daa1.css",
+    "static/js/main.0da1fcdb.js"
+  ]
+}
